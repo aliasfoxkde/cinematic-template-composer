@@ -1,0 +1,78 @@
+// src/data/values.ts
+// Options for each placeholder slot across all templates.
+
+export const VALUES: Record<string, string[]> = {
+  scene_type: [
+    'climactic confrontation',
+    'intimate betrayal moment',
+    'explosive car chase',
+    'tense interrogation',
+    'sweeping establishing shot',
+    'vulnerable emotional revelation',
+  ],
+  narrative_element: [
+    'foreshadowing impending danger',
+    'exploring conflicted emotions',
+    'building explosive momentum',
+    'revealing hidden truths',
+    'capturing scope and isolation',
+    'portraying inner turmoil',
+  ],
+  character_focus: [
+    'protagonist with hardened expression',
+    'antagonist showing vulnerability',
+    'dual characters in conflict',
+    'lone figure commanding presence',
+    'ensemble cast in formation',
+    'solitary character lost in thought',
+  ],
+  setting_style: [
+    'decaying urban industrial warehouse',
+    'luxurious penthouse overlooking city',
+    'barren windswept desert landscape',
+    'dimly-lit noir nightclub',
+    'sprawling epic mountain range',
+    'claustrophobic abandoned subway station',
+  ],
+  cinematography_style: [
+    'dutch angle composition with deep depth-of-field',
+    'symmetrical framing with leading lines',
+    'dynamic wide-angle establishing shot',
+    'intimate shallow focus on subject',
+    'panoramic sweeping camera movement',
+    'tight claustrophobic close-up framing',
+  ],
+  lighting_mood: [
+    'cold blue neon-soaked shadows',
+    'warm golden-hour romantic glow',
+    'harsh directional spotlight drama',
+    'moody overcast diffused daylight',
+    'ethereal misty atmospheric haze',
+    'stark high-contrast side-lighting',
+  ],
+  production_value_detail: [
+    'intricate costume design and weathered props',
+    'practical effects and practical lighting rigs',
+    'elaborate set dressing and production design',
+    'sophisticated camera equipment and lenses',
+    'professional hair, makeup, and styling',
+    'detailed background elements and extras',
+  ],
+  visual_style: [
+    '35mm film noir aesthetic',
+    'digital contemporary prestige television',
+    'bleached desaturated indie thriller',
+    'vibrant cinematic color grading',
+    'documentary-style realism',
+    'stylized superhero blockbuster',
+  ],
+  __generic__: [
+    'a creative variation',
+    'a bold modern take',
+    'a soft elegant version',
+    'a vibrant playful style',
+    'a refined minimal approach',
+    'a richly detailed rendering',
+    'an unexpected twist',
+  ],
+};
