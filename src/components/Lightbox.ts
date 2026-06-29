@@ -91,11 +91,13 @@ export function mountLightbox(container: HTMLElement) {
   lbCap     = document.getElementById('lb-cap');
   lbCopyBtn = document.getElementById('lb-copy');
 
+  if (!lbEl || !lbImg) return;
+
   document.getElementById('lb-close')?.addEventListener('click', close);
   document.getElementById('lb-prev')?.addEventListener('click', prev);
   document.getElementById('lb-next')?.addEventListener('click', next);
   lbCopyBtn?.addEventListener('click', copyPrompt);
-  lbEl?.addEventListener('click', (e) => { if (e.target === lbEl) close(); });
+  lbEl.addEventListener('click', (e) => { if (e.target === lbEl) close(); });
 }
 
 export function lbOpen(srcs: string[], idx: number) {

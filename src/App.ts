@@ -21,6 +21,7 @@ export function mountApp(el: HTMLElement) {
   cardEl.className  = 'card';
 
   const tplSel   = document.createElement('select');
+  tplSel.id      = 'tpl';
   const galleryEl = document.createElement('div');
   const fieldsEl  = document.createElement('div');
   const btnRow    = document.createElement('div');
@@ -50,13 +51,16 @@ export function mountApp(el: HTMLElement) {
   );
 
   const previewEl = document.createElement('div');
-  const outEl     = document.createElement('textarea');
-  outEl.id        = 'out';
-  outEl.spellcheck = false;
-
-  const comfyEl = document.createElement('div');
+  const comfyEl   = document.createElement('div');
 
   wrap.append(headerEl, countEl, cardEl, previewEl, comfyEl);
+
+  // Prompt preview card — outEl must be the actual DOM textarea
+  const previewCard = document.createElement('div');
+  mountPromptPreview(previewCard);
+  const outEl = previewCard.querySelector('textarea') as HTMLTextAreaElement;
+  outEl.spellcheck = false;
+  previewEl.append(previewCard);
 
   // Mount sub-components
   mountHeader(headerEl);
@@ -71,12 +75,6 @@ export function mountApp(el: HTMLElement) {
 
   // Lightbox (mounted on body)
   mountLightbox(document.body);
-
-  // Prompt preview card
-  const previewCard = document.createElement('div');
-  mountPromptPreview(previewCard);
-  previewCard.querySelector('textarea')!.id = 'out';
-  previewEl.append(previewCard);
 
   // ComfyUI panel
   mountComfyUIPanel(comfyEl, () => (document.getElementById('out') as HTMLTextAreaElement)?.value ?? '');

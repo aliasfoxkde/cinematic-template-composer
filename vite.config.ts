@@ -20,8 +20,8 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // Cache all cinematic stills — they total ~20 MB and ship with the app
-        globPatterns: ['cinematic-stills/**/*.webp'],
+        // Must include index.html so navigateFallback works for SPA routing
+        globPatterns: ['index.html', 'cinematic-stills/**/*.webp'],
         runtimeCaching: [
           {
             // Google Fonts — cache first, serve from CDN

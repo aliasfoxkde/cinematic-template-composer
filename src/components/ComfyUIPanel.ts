@@ -114,13 +114,15 @@ export function mountComfyUIPanel(
     <p class="exp" id="exp"></p>
   `;
 
-  const uriEl = document.getElementById('uri') as HTMLInputElement;
-  const sizeSel = document.getElementById('size') as HTMLSelectElement;
-  sendBtn    = document.getElementById('send') as HTMLButtonElement;
-  statusEl   = document.getElementById('status');
-  resultImgEl = document.getElementById('result') as HTMLImageElement;
-  expEl      = document.getElementById('exp');
-  pillsEl    = document.getElementById('pills');
+  const uriEl    = document.getElementById('uri') as HTMLInputElement | null;
+  const sizeSel  = document.getElementById('size') as HTMLSelectElement | null;
+  sendBtn       = document.getElementById('send') as HTMLButtonElement | null;
+  statusEl      = document.getElementById('status');
+  resultImgEl   = document.getElementById('result') as HTMLImageElement | null;
+  expEl         = document.getElementById('exp');
+  pillsEl       = document.getElementById('pills');
+
+  if (!uriEl || !sizeSel || !sendBtn) return;
 
   SIZES.forEach(([label]) => {
     const o = document.createElement('option');
