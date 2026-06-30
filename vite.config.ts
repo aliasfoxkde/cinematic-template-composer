@@ -19,6 +19,7 @@ export default defineConfig({
           { src: 'favicon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any maskable' },
         ],
       },
+      navigateFallback: null,
       workbox: {
         // Cache all cinematic stills — they total ~20 MB and ship with the app
         globPatterns: ['cinematic-stills/**/*.webp', 'assets/**/*.js', 'assets/**/*.css', 'index.html'],

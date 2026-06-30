@@ -71,7 +71,7 @@ export function mountApp(el: HTMLElement) {
   });
 
   // Lightbox (mounted on body)
-  mountLightbox(document.body);
+  const lbContainer = document.createElement("div"); document.body.appendChild(lbContainer); mountLightbox(lbContainer);
 
   // Prompt preview card
   const previewCard = document.createElement('div');
