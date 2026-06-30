@@ -57,4 +57,4 @@ See [docs/CREDITS.md](docs/CREDITS.md) for full attribution and license details.
 
 ## License
 
-MIT License. See [LICENSE](LICENSE).
+Source code: MIT License. Image assets: [Prisma Packs License](docs/CREDITS.md). See [LICENSE](LICENSE).
