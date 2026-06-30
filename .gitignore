@@ -1,7 +1,11 @@
-node_modules/
-dist/
-.env
-.env.*
-!.env.example
-*.local
-.DS_Store
+# Claude Code project guidance (use local .claude/ instead)
+CLAUDE.md
+
+# Claude Code session data
+.claude/
+
+# Test artifacts
+test-results/
+
+# Playwright
+docs/reports/playwright-report/
