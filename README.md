@@ -67,4 +67,5 @@ See [docs/CREDITS.md](docs/CREDITS.md) for full attribution and license details.
 
 ## License
 
-Source code: MIT License. Image assets: [Prisma Packs License](docs/CREDITS.md). See [LICENSE](LICENSE).
+**Source code:** MIT License — see [LICENSE](LICENSE).  
+**Image assets:** [Prisma Packs License](docs/CREDITS.md) — you MAY use them freely in your own projects, but you MAY NOT resell or redistribute them as-is.
