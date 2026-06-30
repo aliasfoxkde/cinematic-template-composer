@@ -10,7 +10,9 @@ Generate tailored AI cinematic prompts from 24 themed templates and dispatch the
 
 The original **Template-Composer.html** was a self-contained 303-line static HTML file written by the author. This project is a Vite-based rewrite with PWA support, ComfyUI dispatch, and full test coverage.
 
-If you found this project useful, consider supporting the author: [![Ko-fi](https://i.redd.it/4xry1cdrqgah1.png)](https://ko-fi.com/s/8b36aa8ba0)
+If you found this project useful, consider supporting the author:
+
+[![Ko-fi](https://i.redd.it/4xry1cdrqgah1.png)](https://ko-fi.com/s/8b36aa8ba0)
 
 ---
 
