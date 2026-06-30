@@ -4,6 +4,12 @@
 
 The original **Template-Composer.html** was a self-contained 303-line static HTML file that served as the inspiration and source for this project. It was written by the author of this repository.
 
+## Support / Attribution
+
+If you found this project useful, consider buying the author a coffee:
+
+[![Ko-fi](https://i.redd.it/4xry1cdrqgah1.png)](https://ko-fi.com/s/8b36aa8ba0)
+
 ## Image Pack — Prisma Packs
 
 The 144 cinematic still images (`cinematic-stills/`) are licensed from **Prisma Packs** and are subject to the **Prisma Packs License Agreement** (see `LICENSE`).
