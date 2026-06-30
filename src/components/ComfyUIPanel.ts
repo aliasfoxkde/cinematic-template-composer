@@ -115,11 +115,11 @@ export function mountComfyUIPanel(
     <p class="exp" id="exp"></p>
   `;
 
-  const uriEl = container.querySelector('#uri') as HTMLInputElement | null;
-  const sizeSel = container.querySelector('#size') as HTMLSelectElement | null;
-  sendBtn    = container.querySelector('#send') as HTMLButtonElement | null;
+  const uriEl = container.querySelector<HTMLInputElement>('#uri');
+  const sizeSel = container.querySelector<HTMLSelectElement>('#size');
+  sendBtn    = container.querySelector<HTMLButtonElement>('#send');
   statusEl   = container.querySelector('#status');
-  resultImgEl = container.querySelector('#result') as HTMLImageElement | null;
+  resultImgEl = container.querySelector<HTMLImageElement>('#result');
   expEl      = container.querySelector('#exp');
   pillsEl    = container.querySelector('#pills');
 
@@ -140,7 +140,7 @@ export function mountComfyUIPanel(
   });
 
   sendBtn?.addEventListener('click', () => {
-    const base = (uriEl?.value || 'http://127.0.0.1:8188').trim().replace(/\/+$/, '');
+    const base = (uriEl?.value ?? 'http://127.0.0.1:8188').trim().replace(/\/+$/, '');
     void generate(base, getPrompt(), sizeSel?.selectedIndex ?? 0);
   });
 
