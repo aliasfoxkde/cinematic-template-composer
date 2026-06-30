@@ -8,7 +8,7 @@ interface ComfyUIState {
   lang: I18nKey;
 }
 
-let state: ComfyUIState = { clientId: crypto.randomUUID(), lang: 'en' };
+const state: ComfyUIState = { clientId: crypto.randomUUID(), lang: 'en' };
 let resultImgEl: HTMLImageElement | null = null;
 let statusEl: HTMLElement | null = null;
 let expEl: HTMLElement | null = null;
@@ -59,16 +59,17 @@ async function generate(base: string, prompt: string, sizeIdx: number) {
     const { prompt_id } = await r.json() as { prompt_id: string };
     setStatus(I18N[state.lang].waiting);
 
-    let pid = prompt_id;
+    const pid = prompt_id;
     for (let i = 0; i < 300; i++) {
       await sleep(1000);
       try {
-        const h = await (await fetch(`${base}/history/${pid}`)).json() as Record<string, unknown>;
-        if (h[pid] && (h[pid] as Record<string, unknown>).outputs) {
-          const outputs = (h[pid] as Record<string, Record<string, { images?: { filename: string; subfolder?: string; type?: string }[] }>>).outputs ?? {};
+        const raw = await (await fetch(`${base}/history/${pid}`)).json() as Record<string, unknown>;
+        const entry = raw[pid] as { outputs?: Record<string, { images?: { filename: string; subfolder?: string; type?: string }[] }> } | undefined;
+        if (entry?.outputs) {
+          const outputs = entry.outputs;
           let img: { filename: string; subfolder?: string; type?: string } | undefined;
           for (const k of Object.keys(outputs)) {
-            const o = outputs[k] as { images?: { filename: string; subfolder?: string; type?: string }[] };
+            const o = outputs[k];
             if (o.images?.length) { img = o.images[0]; break; }
           }
           if (img) {
@@ -82,7 +83,7 @@ async function generate(base: string, prompt: string, sizeIdx: number) {
               resultImgEl.style.display = 'block';
             }
             setStatus(I18N[state.lang].done, 'ok');
-            sendBtn!.disabled = false;
+            sendBtn.disabled = false;
             return;
           }
         }
@@ -92,7 +93,7 @@ async function generate(base: string, prompt: string, sizeIdx: number) {
   } catch {
     setStatus(I18N[state.lang].err, 'err');
   } finally {
-    sendBtn!.disabled = false;
+    sendBtn.disabled = false;
   }
 }
 
@@ -140,7 +141,7 @@ export function mountComfyUIPanel(
 
   sendBtn.addEventListener('click', () => {
     const base = (uriEl.value || 'http://127.0.0.1:8188').trim().replace(/\/+$/, '');
-    generate(base, getPrompt(), sizeSel.selectedIndex);
+    void generate(base, getPrompt(), sizeSel.selectedIndex);
   });
 
   setLang(state.lang);

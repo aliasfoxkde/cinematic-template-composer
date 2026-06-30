@@ -9,7 +9,7 @@ function rand<T>(a: T[]): T {
 }
 
 function valsFor(ph: string): string[] {
-  return VALUES[ph] ?? VALUES['__generic__'] ?? [];
+  return VALUES[ph] ?? VALUES.__generic__ ?? [];
 }
 
 export function mountFieldGrid(

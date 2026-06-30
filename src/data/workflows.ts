@@ -12,7 +12,6 @@ interface WFNode {
   _meta?: { title: string };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const WORKFLOW: Record<string, WFNode> = {
   '29': {
     inputs: { filename_prefix: 'Krea2_turbo', images: ['54', 0] },

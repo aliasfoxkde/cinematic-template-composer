@@ -3,7 +3,7 @@
 
 export interface Template {
   title: string;
-  /** Prompt template with {placeholder} slots */
+  /** Prompt template with \{placeholder\} slots */
   template: string;
   /** Relative paths to this template's gallery images (from public/) */
   imgs: string[];

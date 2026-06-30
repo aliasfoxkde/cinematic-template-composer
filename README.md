@@ -1,84 +1,60 @@
 # Cinematic Template Composer
 
-Generate tailored AI cinematic prompts from 25 themed templates and dispatch them directly to a local ComfyUI instance.
+Generate tailored AI cinematic prompts from 24 themed templates and dispatch them directly to a local [ComfyUI](https://github.com/comfyanonymous/ComfyUI) instance. Browse a curated gallery of 144 cinematic stills, each with a per-image prompt caption.
 
-## Features
+**Live:** [https://main.cinematic-template-composer.pages.dev](https://main.cinematic-template-composer.pages.dev)
 
-- **25 cinematic themes** — 1920s Flapper, Cyberpunk Hacker, Viking Shieldmaiden, and more
-- **8 placeholder slots per template** — scene type, narrative element, character focus, setting style, cinematography style, lighting mood, production value detail, visual style
-- **Randomize all** — dice-roll a value for every slot at once
-- **Image gallery + lightbox** — browse 144 curated cinematic stills with per-image prompt captions
-- **ComfyUI dispatch** — send the composed prompt to a local ComfyUI instance (Krea 2 model), pick an aspect ratio, and receive the generated image
-- **i18n** — English, Spanish, Korean, Chinese
-- **PWA / offline** — install as a native app, works fully offline (images cached via service worker)
-- **Cloudflare Pages** — one-command deploy to the edge
+---
 
-## Setup
+## Quick Start
 
 ```bash
 npm install
+npm run dev          # http://localhost:5173
+npm run build        # production → dist/
+npm run preview      # preview dist/ locally
+npm run deploy       # deploy to Cloudflare Pages
 ```
 
-## Development
+---
 
-```bash
-npm run dev
-```
+## Documentation
 
-Opens at `http://localhost:5173` with HMR.
+| Document | Description |
+|----------|-------------|
+| [Architecture](docs/ARCHITECTURE.md) | Project structure, data flow, PWA/Offline, Cloudflare Pages |
+| [API Reference](docs/API_REFERENCE.md) | Key types, exports, and component interfaces |
+| [Deployment](docs/DEPLOYMENT.md) | Cloudflare Pages, local dev, wrangler config |
+| [Testing](docs/TESTING.md) | Unit tests (Vitest), E2E (Playwright), coverage |
+| [ComfyUI Guide](docs/COMFYUI.md) | Setup, API dispatch, workflow node graph |
+| [Changelog](docs/CHANGELOG.md) | Release history and changes |
+| [Credits](docs/CREDITS.md) | Prisma Packs license, Krea 2, Google Fonts |
 
-To test ComfyUI dispatch locally, start ComfyUI with CORS enabled:
+---
 
-```bash
-python main.py --enable-cors-header
-```
+## Features
 
-## Build
+- **24 cinematic themes** — 1920s Flapper, Cyberpunk Hacker, Viking Shieldmaiden, and more
+- **8 placeholder slots per template** — scene type, narrative element, character focus, setting style, cinematography style, lighting mood, production value detail, visual style
+- **Randomize all** — dice-roll a value for every slot at once
+- **Image gallery + lightbox** — browse 144 curated stills with per-image prompt captions
+- **ComfyUI dispatch** — send composed prompts to a local ComfyUI instance, pick an aspect ratio, receive the generated image
+- **i18n** — English, Spanish, Korean, Chinese
+- **PWA / offline** — install as a native app, works fully offline
+- **Cloudflare Pages** — edge-deployed, one-command deploy
 
-```bash
-npm run build
-```
+---
 
-Output goes to `dist/`.
+## Disclaimer
 
-## Preview (local)
+The 144 cinematic still images in `public/cinematic-stills/` are licensed from **Prisma Packs** and subject to the [Prisma Packs License Agreement](docs/CREDITS.md). You MAY use the images for personal and commercial projects. You MAY NOT resell or redistribute the images as-is.
 
-```bash
-npm run preview
-```
+Images were produced with the **Krea 2** text-to-image model. No copyright is claimed over AI-generated content.
 
-## Cloudflare Pages — Local Dev
+See [docs/CREDITS.md](docs/CREDITS.md) for full attribution and license details.
 
-```bash
-npm run dev:cloudflare
-```
+---
 
-## Deploy to Cloudflare Pages
+## License
 
-```bash
-npm run deploy
-```
-
-Requires `wrangler` to be authenticated (`npx wrangler login`).
-
-## Cloudflare Pages — Manual Deploy
-
-Connect your GitHub repository to Cloudflare Pages in the Cloudflare dashboard, or use:
-
-```bash
-npx wrangler pages deploy dist --project-name=cinematic-template-composer
-```
-
-The `_routes.json` and `_headers` files in `public/` configure edge caching and SPA routing automatically.
-
-## Project Structure
-
-| Path | Purpose |
-|------|---------|
-| `src/data/` | Typed data — templates, placeholder values, prompts, i18n, workflows |
-| `src/components/` | Self-contained UI components |
-| `src/styles/main.css` | All CSS |
-| `public/` | Static assets served as-is; Cloudflare config files here too |
-| `docs/` | Architecture, credits, planning docs |
-
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for details.
+MIT License. See [LICENSE](LICENSE).

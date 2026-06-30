@@ -11,6 +11,7 @@ import './styles/main.css';
 
 export function mountApp(el: HTMLElement) {
   el.innerHTML = `<div class="wrap"></div>`;
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const wrap = el.querySelector('.wrap')!;
 
   // Sections — created in DOM order
@@ -75,6 +76,7 @@ export function mountApp(el: HTMLElement) {
   // Prompt preview card
   const previewCard = document.createElement('div');
   mountPromptPreview(previewCard);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   previewCard.querySelector('textarea')!.id = 'out';
   previewEl.append(previewCard);
 

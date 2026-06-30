@@ -65,7 +65,8 @@ async function copyPrompt() {
   if (lbCopyBtn) {
     const o = lbCopyBtn.textContent;
     lbCopyBtn.textContent = '✓ Copied!';
-    setTimeout(() => (lbCopyBtn!.textContent = o), 1200);
+    const btn = lbCopyBtn;
+    setTimeout(() => { btn.textContent = o; }, 1200);
   }
 }
 

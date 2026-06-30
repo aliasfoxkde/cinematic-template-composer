@@ -1,60 +1,91 @@
-# ARCHITECTURE.md
+# Architecture
 
 ## Overview
 
-Cinematic Template Composer is a static SPA (Single Page Application) built with Vite and TypeScript. It runs entirely in the browser with no server-side logic — all template data, prompt generation, and ComfyUI dispatch are client-side.
+Cinematic Template Composer is a static SPA built with Vite and TypeScript. All logic — template data, prompt generation, ComfyUI dispatch — runs client-side.
 
 ## Directory Structure
 
 ```
 src/
-  data/           # Typed data files — templates, values, prompts, i18n, workflows
-    templates.ts  # 25 cinematic themes (title, template string, image paths)
-    values.ts     # Options for each placeholder slot
-    prompts.ts    # Image → cinematic caption map (used by lightbox)
-    workflows.ts  # ComfyUI workflow node graph (static JSON)
-    i18n.ts       # EN / ES / KO / ZH translation strings
-    sizes.ts      # Aspect ratio presets for ComfyUI latent generation
-    index.ts      # Public barrel export
-  components/     # One file per UI component, each self-contained
-    App.ts        # Root — owns state, orchestrates all other components
-    Header.ts     # Brand header
-    Gallery.ts    # Thumbnail strip, delegates to Lightbox on click
-    FieldGrid.ts  # Dynamic form fields for template placeholders
-    PromptPreview.ts  # Textarea + copy-to-clipboard
-    ComfyUIPanel.ts  # ComfyUI URI/size/send/result + i18n pills
-    Lightbox.ts   # Full-screen image overlay, keyboard nav
-  styles/
-    main.css      # All CSS — variables, layout, components, lightbox
-  main.ts         # Entry point — mounts App to #app
+  data/             # Typed data: templates, values, prompts, i18n, workflows
+    templates.ts     # 24 cinematic themes (title, template string, image paths)
+    values.ts       # Options for each placeholder slot + __generic__ fallback
+    prompts.ts      # Image path → cinematic caption (lightbox)
+    workflows.ts    # ComfyUI workflow node graph (static JSON)
+    i18n.ts         # EN / ES / KO / ZH translations
+    sizes.ts        # Aspect ratio presets for ComfyUI latent
+    index.ts        # Public barrel export
+  components/       # One self-contained file per UI component
+    App.ts          # Root orchestrator — owns state
+    Header.ts       # Brand header
+    Gallery.ts      # Thumbnail strip → Lightbox on click
+    FieldGrid.ts    # Per-placeholder input + datalist + dice button
+    PromptPreview.ts # Textarea output + copy-to-clipboard
+    ComfyUIPanel.ts # ComfyUI URI/size/send/result + i18n pills
+    Lightbox.ts     # Full-screen overlay, keyboard nav, prompt caption
+  styles/main.css   # All CSS — variables, layout, components, lightbox
+  main.ts           # Entry point — mounts App to #app
 public/
-  cinematic-stills/   # 144 .webp images — served as static assets
-  _headers        # Cloudflare cache headers
-  _routes.json    # SPA routing fallback
-  favicon.svg     # App icon
+  cinematic-stills/ # 144 .webp images (static assets, PWA-precached)
+  _headers          # Cloudflare edge cache headers
+  _routes.json       # SPA routing fallback (404 → index.html)
+  favicon.svg
 docs/
-  ARCHITECTURE.md  # This file
-  CREDITS.md       # Attribution for Prisma Packs, Krea 2, original HTML
+  ARCHITECTURE.md   # This file
+  API_REFERENCE.md  # Key types and exports
+  DEPLOYMENT.md     # Cloudflare Pages, wrangler
+  TESTING.md        # Vitest + Playwright
+  COMFYUI.md        # ComfyUI setup and dispatch
+  CHANGELOG.md      # Release history
+  CREDITS.md        # Attribution and licenses
+  ARCHIVE/          # Historical planning docs
+.github/
+  CONTRIBUTING.md
+  ISSUE_TEMPLATE/
+  PULL_REQUEST_TEMPLATE.md
 ```
 
 ## Data Flow
 
-1. `App.ts` initialises state: `current` (template index), `picks` (placeholder→value map)
-2. User selects a template → `buildFields()` renders a form row per placeholder
+1. `App.ts` initialises: `current` (template index), `picks` (placeholder→value map)
+2. User selects a template → `buildFields()` renders one form row per placeholder
 3. User types or dice-rolls values → `picks` updated → `render()` fills template string → textarea updated
-4. **Copy** → clipboard API
-5. **Send to ComfyUI** → POST `/prompt` → poll `/history/{id}` → GET `/view?filename=…`
-6. **Lightbox** → opened from gallery thumbnails, shows curated caption from `prompts.ts`
+4. **Copy** — `navigator.clipboard.writeText` with `execCommand` fallback
+5. **Send to ComfyUI** — POST `/prompt` → poll `/history/{id}` → GET `/view?filename=…`
+6. **Lightbox** — opened from gallery thumbnails, shows curated caption from `prompts.ts`
+
+## Key Types
+
+```typescript
+interface Template {
+  title: string;
+  template: string;   // prompt with {placeholder} slots
+  imgs: string[];    // relative paths from public/
+}
+```
+
+Placeholders extracted via `\{([^}]+)\}`. Values from `VALUES[slot]` with `__generic__` fallback. Gallery captions from `PROMPTS[imagePath]`.
 
 ## PWA / Offline
 
 `vite-plugin-pwa` injects a service worker that:
-- Precaches all `cinematic-stills/**/*.webp` at install time (20 MB bundle)
-- Runtime-caches Google Fonts (both stylesheet and static font files) with `CacheFirst`, 1-year expiry
-- Emits `index.html` with `autoUpdate` registration — users always get the latest version on reload
+- Precaches all `cinematic-stills/**/*.webp` at install time (~20 MB)
+- Runtime-caches Google Fonts with `CacheFirst`, 1-year expiry
+- `registerType: 'autoUpdate'` — users always get the latest version on reload
 
 ## Cloudflare Pages
 
 - `wrangler.toml` declares `pages_build_output_dir = "dist"`
-- `public/_routes.json` — `fallthrough: true` means non-asset paths (404s) serve `index.html` for SPA routing
-- `public/_headers` — immutable cache for `_assets/` (hashed filenames), no-cache for `index.html`
+- `public/_routes.json` — `fallthrough: true` makes 404s serve `index.html` for SPA routing
+- `public/_headers` — immutable cache for hashed assets, no-cache for HTML shell
+
+## Build Commands
+
+```bash
+npm run dev           # dev server http://localhost:5173
+npm run build         # → dist/
+npm run preview       # preview dist/
+npm run dev:cloudflare # Cloudflare Pages local emulation
+npm run deploy         # build + wrangler pages deploy
+```

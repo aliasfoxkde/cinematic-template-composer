@@ -24,7 +24,7 @@ export function mountGallery(container: HTMLElement, imgs: string[], onReady?: (
   const thumbs = container.querySelectorAll('img');
   let loaded = 0;
   thumbs.forEach((t) => {
-    if ((t as HTMLImageElement).complete) loaded++;
+    if (t.complete) loaded++;
     else t.addEventListener('load', () => { if (++loaded === thumbs.length) onReady?.(); }, { once: true });
   });
   if (loaded === thumbs.length) onReady?.();
