@@ -1,35 +1,35 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mountHeader } from '../../src/components/Header.js';
 
 describe('mountHeader', () => {
+  let container: HTMLDivElement;
+
+  beforeEach(() => {
+    container = document.createElement('div');
+    document.body.appendChild(container);
+  });
+
+  afterEach(() => {
+    document.body.removeChild(container);
+  });
+
   it('mounts into container', () => {
-    const c = document.createElement('div');
-    mountHeader(c);
-    expect(c.querySelector('header')).toBeTruthy();
+    mountHeader(container);
+    expect(container.querySelector('header')).toBeTruthy();
   });
 
-  it('renders h1 with title', () => {
-    const c = document.createElement('div');
-    mountHeader(c);
-    expect(c.querySelector('h1')?.textContent).toContain('Cinematic');
+  it('renders brand text', () => {
+    mountHeader(container);
+    expect(container.textContent).toContain('CINEMATIC');
   });
 
-  it('renders template nav', () => {
-    const c = document.createElement('div');
-    mountHeader(c);
-    expect(c.querySelector('nav')).toBeTruthy();
+  it('renders Template Composer sub', () => {
+    mountHeader(container);
+    expect(container.textContent).toContain('Template Composer');
   });
 
-  it('renders github link', () => {
-    const c = document.createElement('div');
-    mountHeader(c);
-    const a = c.querySelector('a[href*="github"]');
-    expect(a).toBeTruthy();
-  });
-
-  it('renders theme toggle', () => {
-    const c = document.createElement('div');
-    mountHeader(c);
-    expect(c.querySelector('#theme-toggle')).toBeTruthy();
+  it('renders Prisma Packs attribution', () => {
+    mountHeader(container);
+    expect(container.textContent).toContain('Prisma Packs');
   });
 });

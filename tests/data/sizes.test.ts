@@ -22,7 +22,8 @@ describe('SIZES', () => {
     });
   });
 
-  it('512x512 preset exists', () => {
-    expect(SIZES[0]).toEqual(['512x512', 512, 512]);
+  it('has 1:1 preset', () => {
+    const found = SIZES.find(s => s[1] === 1024 && s[2] === 1024);
+    expect(found).toBeTruthy();
   });
 });

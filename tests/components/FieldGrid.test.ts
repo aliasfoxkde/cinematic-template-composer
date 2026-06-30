@@ -1,6 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { mountFieldGrid } from '../../src/components/FieldGrid.js';
-import { VALUES } from '../../src/data/values.js';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { mountFieldGrid, buildPlaceholders } from '../../src/components/FieldGrid.js';
 import { TEMPLATES } from '../../src/data/templates.js';
 
 describe('mountFieldGrid', () => {
@@ -8,31 +7,43 @@ describe('mountFieldGrid', () => {
 
   beforeEach(() => {
     container = document.createElement('div');
+    document.body.appendChild(container);
     vi.clearAllMocks();
   });
 
-  it('mounts into container', () => {
-    mountFieldGrid(container, TEMPLATES[0].template, () => {});
-    expect(container.querySelector('.field-grid')).toBeTruthy();
+  afterEach(() => {
+    document.body.removeChild(container);
   });
 
-  it('renders 8 field rows', () => {
-    mountFieldGrid(container, TEMPLATES[0].template, () => {});
-    const rows = container.querySelectorAll('.field-row');
-    expect(rows).toHaveLength(8);
+  it('mounts into container', () => {
+    const phs = buildPlaceholders(TEMPLATES[0].template);
+    mountFieldGrid(container, phs, {}, () => {});
+    expect(container.querySelector('.field')).toBeTruthy();
+  });
+
+  it('renders correct number of field rows', () => {
+    const phs = buildPlaceholders(TEMPLATES[0].template);
+    mountFieldGrid(container, phs, {}, () => {});
+    const rows = container.querySelectorAll('.field');
+    expect(rows).toHaveLength(phs.length);
   });
 
   it('each row has a label', () => {
-    mountFieldGrid(container, TEMPLATES[0].template, () => {});
-    const labels = container.querySelectorAll('.field-label');
-    expect(labels.length).toBeGreaterThan(0);
+    const phs = buildPlaceholders(TEMPLATES[0].template);
+    mountFieldGrid(container, phs, {}, () => {});
+    const labels = container.querySelectorAll('label');
+    expect(labels.length).toBe(phs.length);
   });
 
-  it('changing a select calls onChange', () => {
+  it('changing input calls onChange', () => {
     const spy = vi.fn();
-    mountFieldGrid(container, TEMPLATES[0].template, spy);
-    const sel = container.querySelector('select');
-    sel && sel.dispatchEvent(new Event('change', { bubbles: true }));
+    const phs = buildPlaceholders(TEMPLATES[0].template);
+    mountFieldGrid(container, phs, {}, spy);
+    const inp = container.querySelector('input');
+    if (inp) {
+      inp.value = 'test';
+      inp.dispatchEvent(new Event('input', { bubbles: true }));
+    }
     expect(spy).toHaveBeenCalled();
   });
 });

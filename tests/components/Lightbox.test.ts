@@ -1,35 +1,41 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { openLightbox } from '../../src/components/Lightbox.js';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { mountLightbox, lbOpen } from '../../src/components/Lightbox.js';
 
-describe('openLightbox', () => {
+describe('mountLightbox', () => {
+  let container: HTMLDivElement;
+
   beforeEach(() => {
-    vi.clearAllMocks();
+    container = document.createElement('div');
+    document.body.appendChild(container);
+    mountLightbox(container);
   });
 
-  it('opens lightbox with image src', () => {
-    openLightbox('cinematic-stills/001.jpg', 'caption');
-    const overlay = document.querySelector('.lightbox-overlay');
-    expect(overlay).toBeTruthy();
+  afterEach(() => {
+    document.body.removeChild(container);
   });
 
-  it('lightbox contains img', () => {
-    openLightbox('cinematic-stills/001.jpg', 'caption');
-    const img = document.querySelector('.lightbox-overlay img');
-    expect(img).toBeTruthy();
+  it('mounts lb element', () => {
+    expect(document.getElementById('lb')).toBeTruthy();
   });
 
-  it('close button dismisses lightbox', () => {
-    openLightbox('cinematic-stills/001.jpg', 'caption');
-    const closeBtn = document.querySelector('.lightbox-close');
-    closeBtn?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-    const overlay = document.querySelector('.lightbox-overlay');
-    expect(overlay).toBeFalsy();
+  it('has close button', () => {
+    expect(document.getElementById('lb-close')).toBeTruthy();
   });
 
-  it('clicking overlay dismisses lightbox', () => {
-    openLightbox('cinematic-stills/001.jpg', 'caption');
-    const overlay = document.querySelector('.lightbox-overlay');
-    overlay?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-    expect(document.querySelector('.lightbox-overlay')).toBeFalsy();
+  it('has prev/next buttons', () => {
+    expect(document.getElementById('lb-prev')).toBeTruthy();
+    expect(document.getElementById('lb-next')).toBeTruthy();
+  });
+
+  it('has image element', () => {
+    expect(document.getElementById('lb-img')).toBeTruthy();
+  });
+
+  it('close button hides lightbox', () => {
+    lbOpen(['cinematic-stills/001.jpg'], 0);
+    const lb = document.getElementById('lb');
+    expect(lb?.classList.contains('open')).toBe(true);
+    document.getElementById('lb-close')?.dispatchEvent(new MouseEvent('click'));
+    expect(lb?.classList.contains('open')).toBe(false);
   });
 });

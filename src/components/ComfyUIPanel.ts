@@ -115,18 +115,18 @@ export function mountComfyUIPanel(
     <p class="exp" id="exp"></p>
   `;
 
-  const uriEl = document.getElementById('uri') as HTMLInputElement;
-  const sizeSel = document.getElementById('size') as HTMLSelectElement;
-  sendBtn    = document.getElementById('send') as HTMLButtonElement;
-  statusEl   = document.getElementById('status');
-  resultImgEl = document.getElementById('result') as HTMLImageElement;
-  expEl      = document.getElementById('exp');
-  pillsEl    = document.getElementById('pills');
+  const uriEl = container.querySelector('#uri') as HTMLInputElement | null;
+  const sizeSel = container.querySelector('#size') as HTMLSelectElement | null;
+  sendBtn    = container.querySelector('#send') as HTMLButtonElement | null;
+  statusEl   = container.querySelector('#status');
+  resultImgEl = container.querySelector('#result') as HTMLImageElement | null;
+  expEl      = container.querySelector('#exp');
+  pillsEl    = container.querySelector('#pills');
 
   SIZES.forEach(([label]) => {
     const o = document.createElement('option');
     o.textContent = label;
-    sizeSel.appendChild(o);
+    sizeSel?.appendChild(o);
   });
 
   // i18n pills
@@ -139,9 +139,9 @@ export function mountComfyUIPanel(
     pillsEl?.appendChild(b);
   });
 
-  sendBtn.addEventListener('click', () => {
-    const base = (uriEl.value || 'http://127.0.0.1:8188').trim().replace(/\/+$/, '');
-    void generate(base, getPrompt(), sizeSel.selectedIndex);
+  sendBtn?.addEventListener('click', () => {
+    const base = (uriEl?.value || 'http://127.0.0.1:8188').trim().replace(/\/+$/, '');
+    void generate(base, getPrompt(), sizeSel?.selectedIndex ?? 0);
   });
 
   setLang(state.lang);

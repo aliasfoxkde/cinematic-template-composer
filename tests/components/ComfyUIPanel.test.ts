@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { mountComfyUIPanel } from '../../src/components/ComfyUIPanel.js';
 
 describe('mountComfyUIPanel', () => {
@@ -6,12 +6,17 @@ describe('mountComfyUIPanel', () => {
 
   beforeEach(() => {
     container = document.createElement('div');
+    document.body.appendChild(container);
     vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    document.body.removeChild(container);
   });
 
   it('mounts into container', () => {
     mountComfyUIPanel(container, () => 'test prompt');
-    expect(container.querySelector('.card')).toBeTruthy();
+    expect(container.classList.contains('card')).toBe(true);
   });
 
   it('has URI input', () => {
