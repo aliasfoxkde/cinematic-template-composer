@@ -56,11 +56,20 @@ export function mountApp(el: HTMLElement) {
   outEl.spellcheck = false;
 
   const comfyEl = document.createElement('div');
+  const footerEl = document.createElement('footer');
 
-  wrap.append(headerEl, countEl, cardEl, previewEl, comfyEl);
+  wrap.append(headerEl, countEl, cardEl, previewEl, comfyEl, footerEl);
 
   // Mount sub-components
   mountHeader(headerEl);
+
+  // Attribution footer
+  footerEl.innerHTML = `
+    <p class="ft-tag">If this tool is useful, consider supporting the author:</p>
+    <a href="https://ko-fi.com/s/8b36aa8ba0" target="_blank" rel="noopener noreferrer" aria-label="Support on Ko-fi">
+      <img src="https://i.redd.it/4xry1cdrqgah1.png" alt="Ko-fi" width="150" />
+    </a>
+  `;
 
   // Populate template select
   TEMPLATES.forEach((t, i) => {
