@@ -21,7 +21,7 @@ export default defineConfig({
       },
       workbox: {
         // Cache all cinematic stills — they total ~20 MB and ship with the app
-        globPatterns: ['cinematic-stills/**/*.webp'],
+        globPatterns: ['cinematic-stills/**/*.webp', 'assets/**/*.js', 'assets/**/*.css', 'index.html'],
         runtimeCaching: [
           {
             // Google Fonts — cache first, serve from CDN
